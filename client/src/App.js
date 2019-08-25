@@ -9,8 +9,11 @@ function App() {
 	return (
 		<Router>
 			<div className="App">
-				<Link to="/">Home</Link>
-				<Link to="/otherpage">Other Page</Link>
+				<header className="App-header">
+					<h1 className="App-title">Fib Calculator</h1>
+					<Link to="/">Home</Link>
+					<Link to="/otherpage">Other Page</Link>
+				</header>
 				<Route exact path="/" component={Fib} />
 				<Route path="/otherpage" component={OtherPage} />
 			</div>
