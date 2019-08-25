@@ -20,3 +20,16 @@ after_success:
   - docker push chixdocker/multi-nginx
   - docker push chixdocker/multi-server
   - docker push chixdocker/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-south-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-ap-south-1-835745771460
+  bucket_path: bucket-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
