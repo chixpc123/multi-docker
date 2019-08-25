@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t chixdocker/react-test -f ./client/Dockerfile.dev
+
+script:
+  - docker run -e CI=true chixdocker/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t chixdocker/multi-client ./client
+  - docker build -t chixdocker/multi-nginx ./nginx
+  - docker build -t chixdocker/multi-server ./server
+  - docker build -t chixdocker/multi-worker ./worker
+  # Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push chixdocker/multi-client
+  - docker push chixdocker/multi-nginx
+  - docker push chixdocker/multi-server
+  - docker push chixdocker/multi-worker
